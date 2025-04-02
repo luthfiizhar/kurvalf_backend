@@ -88,8 +88,8 @@ async def edit_product_by_id(product:Product, session:SessionDep):
         session.commit()
         session.refresh(product_exist)
         return product_exist
-    except:
-        raise HTTPException(status_code=400, detail="Failed edit product")
+    except Exception as error:
+        raise HTTPException(status_code=400, detail="Failed edit product, {error}")
 
     
 @app.get("/certificate/")
