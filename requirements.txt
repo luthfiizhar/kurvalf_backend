@@ -1,0 +1,4 @@
+fastapi[standard]==0.115.12
+sqlmodel==0.0.24
+alembic==1.15.2
+psycopg2==2.9.10
