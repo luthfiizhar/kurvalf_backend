@@ -52,7 +52,7 @@ async def pong():
 
 @app.get("/product/")
 async def get_all_product(session:SessionDep):
-    statement = select(Product)
+    statement = select(Product).order_by(Product.order)
     result = session.exec(statement).all()
     return result
 
