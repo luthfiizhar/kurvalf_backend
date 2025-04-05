@@ -9,7 +9,7 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware  
 
 @asynccontextmanager
-async def lifespan(app: FastAPI, redirect_slashes=False):
+async def lifespan(app: FastAPI):
     init_db()
     yield
 
