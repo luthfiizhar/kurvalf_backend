@@ -1,11 +1,12 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI,HTTPException, Depends,Request
+from fastapi import FastAPI,HTTPException, Depends,Request,BackgroundTasks,Form
 from fastapi.responses import JSONResponse
 from app.models import *
 from app.database import init_db, Session, get_session
 from typing import Annotated
 from sqlmodel import select
 from fastapi.responses import FileResponse
+from app.email import send_email_background
 from fastapi.middleware.cors import CORSMiddleware  
 
 @asynccontextmanager
@@ -112,3 +113,19 @@ async def add_certificate(cert: Certificate, session:SessionDep):
         return cert
     except:
         raise HTTPException(status_code=400, detail="Failed add cert")
+    
+@app.post('/send-email/backgroundtasks')
+def send_email_backgroundtasks(background_tasks: BackgroundTasks, form: Annotated[ReceivedEmail, Form()],  session:SessionDep):
+    try:
+        send_email_background(background_tasks, 'Hello World', form)
+    except:
+        raise HTTPException(status_code=400, detail="Failed add cert")
+    
+    try:
+        session.add(form)
+        session.commit()
+        session.refresh(form)
+    except:
+        raise HTTPException(status_code=400, detail="Failed save email")
+
+    return JSONResponse(status_code=200, content={"message": "email has been sent"})
