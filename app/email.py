@@ -114,6 +114,7 @@ def send_email_background(background_tasks: BackgroundTasks, form: ReceivedEmail
     message = MessageSchema(
         subject=form.topic,
         recipients=[form.email],
+        cc=[conf.MAIL_FROM],
         body=html,
         subtype='html',
     )
