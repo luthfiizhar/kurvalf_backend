@@ -117,7 +117,7 @@ async def add_certificate(cert: Certificate, session:SessionDep):
 @app.post('/send-email/backgroundtasks')
 def send_email_backgroundtasks(background_tasks: BackgroundTasks, form: Annotated[ReceivedEmail, Form()],  session:SessionDep):
     try:
-        send_email_background(background_tasks, 'Hello World', form)
+        send_email_background(background_tasks, form)
     except:
         raise HTTPException(status_code=400, detail="Failed add cert")
     
