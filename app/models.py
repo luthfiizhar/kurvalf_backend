@@ -62,6 +62,7 @@ class ReceivedEmailBased(SQLModel):
     email:str | None = Field(default=str,nullable=False,)
     message:str | None = Field(default=str,nullable=True,)
     name:str | None = Field(default=str,nullable=True,)
+    topic:str | None = Field(default=str,nullable=True,)
 
 class ReceivedEmail(ReceivedEmailBased, table = True):
     id: UUID = Field(default_factory=uuid4, primary_key=True,nullable=False)
