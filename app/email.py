@@ -7,12 +7,12 @@ from dotenv import load_dotenv
 load_dotenv('.env')
 
 class Envs:
-    MAIL_USERNAME = os.getenv('MAIL_USERNAME',"test@mail.com")
-    MAIL_PASSWORD = os.getenv('MAIL_APP_PASSWORD',"")
-    MAIL_FROM = os.getenv('MAIL_FROM',"test@mail.com")
-    MAIL_PORT = int(os.getenv('MAIL_PORT',"587"))
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD = os.getenv('MAIL_APP_PASSWORD')
+    MAIL_FROM = os.getenv('MAIL_FROM')
+    MAIL_PORT = int(os.getenv('MAIL_PORT',"25"))
     MAIL_SERVER = os.getenv('MAIL_SERVER',"smtp.gmail.com")
-    MAIL_FROM_NAME = os.getenv('MAIN_FROM_NAME',"")
+    MAIL_FROM_NAME = os.getenv('MAIN_FROM_NAME')
 
 conf = ConnectionConfig(
     MAIL_USERNAME=Envs.MAIL_USERNAME,
@@ -20,7 +20,7 @@ conf = ConnectionConfig(
     MAIL_FROM=Envs.MAIL_FROM,
     MAIL_PORT=Envs.MAIL_PORT,
     MAIL_SERVER=Envs.MAIL_SERVER,
-    MAIL_FROM_NAME=Envs.MAIL_FROM_NAME,
+    MAIL_FROM_NAME="Stock Of Valve",
     MAIL_STARTTLS = True,
     MAIL_SSL_TLS = False,
     USE_CREDENTIALS = True,
@@ -38,7 +38,7 @@ async def send_email_async(subject: str, email_to: str, body: dict):
     fm = FastMail(conf)
     await fm.send_message(message, template_name='email.html')
 
-def send_email_background(background_tasks: BackgroundTasks, subject: str, form: ReceivedEmail):
+def send_email_background(background_tasks: BackgroundTasks, form: ReceivedEmail):
     html = f'''
         <!DOCTYPE html>
         <html>
@@ -98,6 +98,7 @@ def send_email_background(background_tasks: BackgroundTasks, subject: str, form:
                 <div class="content">
                     <p>Hello,</p>
                     <p>Thank you for contacting us. Here are the details of the information you submitted:</p>
+                    <p><strong>Topic:</strong> {form.topic}</p>
                     <p><strong>Name:</strong> {form.name}</p>
                     <p><strong>Email:</strong> {form.email}</p>
                     <p><strong>Message:</strong> {form.message}</p>
@@ -111,7 +112,7 @@ def send_email_background(background_tasks: BackgroundTasks, subject: str, form:
     '''
     
     message = MessageSchema(
-        subject=subject,
+        subject=form.topic,
         recipients=[form.email],
         body=html,
         subtype='html',
