@@ -20,7 +20,7 @@ conf = ConnectionConfig(
     MAIL_FROM=Envs.MAIL_FROM,
     MAIL_PORT=Envs.MAIL_PORT,
     MAIL_SERVER=Envs.MAIL_SERVER,
-    MAIL_FROM_NAME="Stock Of Valve",
+    MAIL_FROM_NAME="Stock Of Valf",
     MAIL_STARTTLS = True,
     MAIL_SSL_TLS = False,
     USE_CREDENTIALS = True,
@@ -104,7 +104,7 @@ def send_email_background(background_tasks: BackgroundTasks, form: ReceivedEmail
                     <p><strong>Message:</strong> {form.message}</p>
                 </div>
                 <div class="footer">
-                    &copy; 2025 Stock Of Valve. All rights reserved.
+                    &copy; 2025 Stock Of Valf. All rights reserved.
                 </div>
             </div>
         </body>
